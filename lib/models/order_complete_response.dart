@@ -195,7 +195,7 @@ class OrderProducts extends Equatable {
       id: map['_id'] ?? '',
       price: map['productId']['price'] ?? 0,
       name: map['productId']['name'] ?? '',
-      imgUrl: map['productId']['imgUrl'] ?? '',
+      imgUrl: map['productId']['img'] ?? '',
       toppings: List<Toppings>.from(map['toppings']?.map((x) => Toppings.fromMap(x))),
     );
   }
@@ -233,7 +233,7 @@ class OrderProducts extends Equatable {
       'id': id,
       'name': name,
       'price': price,
-      'imgUrl': imgUrl,
+      'img': imgUrl,
       'toppings': toppings.map((x) => x.toMap()).toList(),
     };
   }
