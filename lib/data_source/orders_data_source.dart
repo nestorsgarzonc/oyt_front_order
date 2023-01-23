@@ -57,7 +57,7 @@ class OrdersDataSourceImpl implements OrdersDataSource {
   @override
   Future<PayOrderResponse> payOrder(PayOrderModel order) async {
     try {
-      const path = '/order/table-order';
+      const path = 'api/order/table-order';
       final res = await apiHandler.post(path, order.toMap());
       return PayOrderResponse.fromMap(res.responseMap!);
     } catch (e, s) {
