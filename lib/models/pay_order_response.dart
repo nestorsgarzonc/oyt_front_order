@@ -9,7 +9,7 @@ class PayOrderResponse extends Equatable {
 
   factory PayOrderResponse.fromMap(Map<String, dynamic> map) {
     return PayOrderResponse(
-      id: map['order']['_id'] ?? '',
+      id: map['orderId'] ?? '',
     );
   }
 
