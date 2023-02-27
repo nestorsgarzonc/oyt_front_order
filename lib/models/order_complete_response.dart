@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:equatable/equatable.dart';
+import 'package:oyt_front_core/enums/payments_enum.dart';
 
 class OrderCompleteResponse extends Equatable {
   const OrderCompleteResponse({
@@ -19,12 +20,12 @@ class OrderCompleteResponse extends Equatable {
     return OrderCompleteResponse(
       id: map['_id'] ?? '',
       totalPrice: map['totalPrice'] ?? 0,
-      usersOrder: List<UserOrder>.from(map['usersOrder']?.map((x) => UserOrder.fromMap(x))),
+      usersOrder: ((map['usersOrder'] as List?) ?? []).map((x) => UserOrder.fromMap(x)).toList(),
       createdAt: DateTime.parse(map['createdAt']),
       restaurantId: map['restaurantId']['_id'] ?? '',
       restaurantName: map['restaurantId']['name'] ?? '',
       restaurantLogo: map['restaurantId']['logoUrl'] ?? '',
-      paymentWay: map['paymentWay'] ?? '',
+      paymentWay: PaymentWay.fromString(map['paymentWay'] ?? ''),
       tip: map['tip'] ?? 0,
       tableId: map['tableId'] ?? '',
     );
@@ -39,7 +40,7 @@ class OrderCompleteResponse extends Equatable {
   final String restaurantId;
   final String restaurantName;
   final String restaurantLogo;
-  final String paymentWay;
+  final PaymentWay paymentWay;
   final num tip;
   final String tableId;
 
@@ -51,7 +52,7 @@ class OrderCompleteResponse extends Equatable {
     String? restaurantId,
     String? restaurantName,
     String? restaurantLogo,
-    String? paymentWay,
+    PaymentWay? paymentWay,
     num? tip,
     String? tableId,
   }) {
@@ -78,7 +79,7 @@ class OrderCompleteResponse extends Equatable {
       'restaurantId': restaurantId,
       'restaurantName': restaurantName,
       'restaurantLogo': restaurantLogo,
-      'paymentWay': paymentWay,
+      'paymentWay': paymentWay.paymentValue,
       'tip': tip,
       'tableId': tableId,
     };
@@ -115,11 +116,13 @@ class UserOrder extends Equatable {
     required this.lastName,
     required this.price,
     required this.orderProducts,
+    required this.userId,
   });
 
   factory UserOrder.fromMap(Map<String, dynamic> map) {
     return UserOrder(
       id: map['_id'] ?? '',
+      userId: map['userId']['_id'] ?? '',
       firstName: map['userId']['firstName'] ?? '',
       lastName: map['userId']['lastName'] ?? '',
       price: map['price'] ?? 0,
@@ -133,6 +136,7 @@ class UserOrder extends Equatable {
   final String id;
   final String firstName;
   final String lastName;
+  final String userId;
   final num price;
   final List<OrderProducts> orderProducts;
 
@@ -140,11 +144,13 @@ class UserOrder extends Equatable {
     String? id,
     String? firstName,
     String? lastName,
+    String? userId,
     num? price,
     List<OrderProducts>? orderProducts,
   }) {
     return UserOrder(
       id: id ?? this.id,
+      userId: userId ?? this.userId,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       price: price ?? this.price,
@@ -158,6 +164,7 @@ class UserOrder extends Equatable {
       'firstName': firstName,
       'lastName': lastName,
       'price': price,
+      'userId': userId,
       'orderProducts': orderProducts.map((x) => x.toMap()).toList(),
     };
   }
@@ -177,6 +184,7 @@ class UserOrder extends Equatable {
       lastName,
       price,
       orderProducts,
+      userId,
     ];
   }
 }
